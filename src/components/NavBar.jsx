@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  AppBar, Toolbar, InputBase, Button,
+  AppBar, Toolbar, InputBase, Button, Select, MenuItem,
 } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -13,29 +13,22 @@ const useStyles = makeStyles((theme) => ({
     background: '#24292e',
   },
   search: {
-    position: 'relative',
+    display: 'flex',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
+    backgroundColor: 'white',
   },
   searchIcon: {
     padding: theme.spacing(0, 1),
-    height: '100%',
-    position: 'absolute',
     pointerEvents: 'none',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
   inputRoot: {
-    color: 'inherit',
     width: '100%',
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
   },
 }));
 
@@ -53,6 +46,9 @@ export const NavBar = () => {
     dispatch({ type: 'OPEN_FORM', isFormOpen: true });
     dispatch({ type: 'OPEN_CARD', isCardOpen: false });
   };
+
+  const [age, setAge] = React.useState('');
+
   return (
     <AppBar className={classes.appBar}>
       <Toolbar>
@@ -62,19 +58,31 @@ export const NavBar = () => {
         <div style={{ flexGrow: 1, padding: '10px' }}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon />
+              <SearchIcon color="primary" />
             </div>
-            <form onSubmit={(e) => onSearchSubmit(e)}>
-              <InputBase
-
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </form>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={age}
+              onChange={(event) => setAge(event.target.value)}
+              disableUnderline="true"
+            >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+            <div style={{ width: '100%' }}>
+              <form onSubmit={(e) => onSearchSubmit(e)}>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </form>
+            </div>
           </div>
         </div>
         <Button onClick={() => onReportSubmit()} variant="contained">Report Incident</Button>
