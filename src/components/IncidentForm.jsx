@@ -5,8 +5,10 @@ import {
 } from '@material-ui/core';
 import {
   KeyboardDatePicker,
+  MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import { useDispatch } from 'react-redux';
+import LuxonUtils from '@date-io/luxon';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -25,6 +27,7 @@ const useStyles = makeStyles(() => ({
 export const IncidentForm = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState('city');
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
   const dispatch = useDispatch();
 
   const handleRadioChange = (e) => {
@@ -55,17 +58,19 @@ export const IncidentForm = () => {
           <FormControlLabel value="city" control={<Radio />} label="City" />
           <FormControlLabel value="county" control={<Radio />} label="County" />
         </RadioGroup>
-        <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Date picker dialog"
-          format="MM/dd/yyyy"
-          // value={selectedDate}
-          // onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-        />
+        <MuiPickersUtilsProvider utils={LuxonUtils}>
+          <KeyboardDatePicker
+            margin="normal"
+            id="date-picker-dialog"
+            label="Date picker dialog"
+            format="MM/dd/yyyy"
+            value={selectedDate}
+            onChange={(event) => { setSelectedDate(event.target.value); }}
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+          />
+        </MuiPickersUtilsProvider>
         <TextField
           className={classes.input}
           label="Officer Last Name"
