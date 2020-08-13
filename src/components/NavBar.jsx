@@ -67,9 +67,8 @@ export const NavBar = () => {
               onChange={(event) => setAge(event.target.value)}
               disableUnderline="true"
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              <MenuItem value={10}>Location</MenuItem>
+              <MenuItem value={20}>Officer Name</MenuItem>
             </Select>
             <div style={{ width: '100%' }}>
               <form onSubmit={(e) => onSearchSubmit(e)}>

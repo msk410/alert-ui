@@ -26,12 +26,19 @@ const useStyles = makeStyles(() => ({
 
 export const IncidentForm = () => {
   const classes = useStyles();
-  const [value, setValue] = React.useState('city');
+  const [locationType, setLocationType] = React.useState('city');
+  const [location, setLocation] = React.useState('');
   const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [lastName, setLastName] = React.useState('');
+  const [firstName, setFirstName] = React.useState('');
+  const [badge, setBadge] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  const [link, setLink] = React.useState('');
+
   const dispatch = useDispatch();
 
   const handleRadioChange = (e) => {
-    setValue(e.target.value);
+    setLocationType(e.target.value);
   };
 
   const handleSubmit = () => {
@@ -40,9 +47,11 @@ export const IncidentForm = () => {
 
   return (
     <Card className={classes.root}>
-      <form onSubmit={() => alert('u die')} style={{ width: '80%' }}>
+      <form onSubmit={() => handleSubmit()} style={{ width: '80%' }}>
         <TextField
           className={classes.input}
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
           label="Location"
           required
           fullWidth
@@ -52,7 +61,7 @@ export const IncidentForm = () => {
           defaultValue="city"
           aria-label="location"
           name="location"
-          value={value}
+          value={locationType}
           onClick={(e) => handleRadioChange(e)}
         >
           <FormControlLabel value="city" control={<Radio />} label="City" />
@@ -60,12 +69,14 @@ export const IncidentForm = () => {
         </RadioGroup>
         <MuiPickersUtilsProvider utils={LuxonUtils}>
           <KeyboardDatePicker
+            required
+            className={classes.input}
             margin="normal"
             id="date-picker-dialog"
-            label="Date picker dialog"
+            label="Date of Incident"
             format="MM/dd/yyyy"
             value={selectedDate}
-            onChange={(event) => { setSelectedDate(event.target.value); }}
+            onChange={(e) => (setSelectedDate(e))}
             KeyboardButtonProps={{
               'aria-label': 'change date',
             }}
@@ -74,16 +85,22 @@ export const IncidentForm = () => {
         <TextField
           className={classes.input}
           label="Officer Last Name"
+          value={lastName}
+          onChange={(e) => (setLastName(e.target.value))}
           fullWidth
         />
         <TextField
           className={classes.input}
           label="Officer First Name"
+          value={firstName}
+          onChange={(e) => (setFirstName(e.target.value))}
           fullWidth
         />
         <TextField
           className={classes.input}
           label="Badge Number"
+          value={badge}
+          onChange={(e) => (setBadge(e.target.value))}
           fullWidth
         />
         <TextField
@@ -93,22 +110,23 @@ export const IncidentForm = () => {
           multiline
           rowsMax={4}
           required
-          // value={value}
-          // onChange={() => ()}
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
           fullWidth
         />
 
         <TextField
           className={classes.input}
           label="Youtube Link"
+          value={link}
+          onChange={(e) => (setLink(e.target.value))}
           fullWidth
         />
         <Button onClick={() => handleSubmit()}>submit</Button>
       </form>
       <div style={{ margin: '10px' }}>
-        Please fill out as much information as you can. Only the location, date, and description of the incident are required.
-
-        Reporting an incident is completely anonymous.
+        Please fill out as much information as you can. Only the location, date, and description of
+        the incident are required. Reporting an incident is completely anonymous.
       </div>
 
     </Card>
